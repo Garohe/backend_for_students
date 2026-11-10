@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { authenticate, authorize } = require("../middleware/auth.middleware");
 const { 
   getUsuarios, 
   getUsuarioById, 
@@ -7,6 +8,8 @@ const {
   actualizarUsuario,
   eliminarUsuario
 } = require("../controllers/usuarios.controller");
+
+router.use(authenticate, authorize("admin"));
 
 /**
  * @swagger

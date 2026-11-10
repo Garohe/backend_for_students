@@ -6,8 +6,11 @@ const {
   updateEmployee,
   deleteEmployee,
 } = require("../controllers/employee.controller");
+const { authenticate, authorize } = require("../middleware/auth.middleware");
 
 const router = express.Router();
+
+router.use(authenticate, authorize("admin", "manager"));
 
 /**
  * @swagger

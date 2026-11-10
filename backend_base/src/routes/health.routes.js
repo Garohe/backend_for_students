@@ -12,6 +12,7 @@ const router = express.Router();
  *     description: Devuelve el estado actual del servicio y la fecha y hora de la consulta.
  *     tags:
  *       - Health
+ *     security: []
  *     responses:
  *       200:
  *         description: El servicio está disponible.

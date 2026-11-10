@@ -13,6 +13,7 @@ const userRoutes = require("./routes/usuarios.routes");
 const userV2Routes = require("./routes/usuarios.v2.routes");
 const rolesRoutes = require("./routes/roles.routes");
 const employeeRoutes = require("./routes/employee.routes");
+const authRoutes = require("./routes/auth.routes");
 
 const app = express();
 
@@ -25,6 +26,16 @@ app.use(express.json({ limit: "1mb" }));
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
+    security: [{ bearerAuth: [] }],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
     info: {
       title: 'API Documentación',
       version: '1.0.0',
@@ -32,7 +43,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: `http://localhost:${env.PORT || 3000}`,
+        url: `http://localhost:${env.port}`,
         description: 'Servidor Local'
       },
     ],
@@ -52,6 +63,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 //Ruta de prueba para verificar que la API está funcionando correctamente
 app.use("/api/v1/health", healthRoutes);
+
+// Autenticación para obtener y validar tokens de acceso.
+app.use("/api/v1/auth", authRoutes);
 
 //Especificamos la ruta para los endpoints de usuarios
 app.use("/api/v1/usuarios", userRoutes);

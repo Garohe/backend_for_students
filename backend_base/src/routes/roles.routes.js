@@ -6,8 +6,11 @@ const {
   updateRole,
   deleteRole,
 } = require("../controllers/role.controller");
+const { authenticate, authorize } = require("../middleware/auth.middleware");
 
 const router = express.Router();
+
+router.use(authenticate, authorize("admin"));
 
 /**
  * @swagger
